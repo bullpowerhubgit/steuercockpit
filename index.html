@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Steuer und Abo Cockpit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{--text-xs:clamp(.75rem,.7rem + .25vw,.875rem);--text-sm:clamp(.875rem,.8rem + .35vw,1rem);--text-base:clamp(1rem,.95rem + .25vw,1.125rem);--text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);--text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);--space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;--color-surface-offset:#f3f0ec;--color-border:#d4d1ca;--color-text:#28251d;--color-text-muted:#66625b;--color-text-faint:#9e9a92;--color-text-inverse:#f9f8f4;--color-primary:#01696f;--color-primary-highlight:#cedcd8;--color-warning:#964219;--color-error:#a12c7b;--color-success:#437a22;--radius-sm:.375rem;--radius-md:.75rem;--radius-lg:1rem;--radius-xl:1.25rem;--radius-full:9999px;--shadow-sm:0 1px 2px rgba(0,0,0,.05);--shadow-md:0 10px 30px rgba(0,0,0,.08);--font-body:'Manrope',system-ui,sans-serif;--font-mono:'IBM Plex Mono',monospace}
+    [data-theme="dark"]{--color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;--color-surface-offset:#252321;--color-border:#393836;--color-text:#ece7de;--color-text-muted:#b3aea4;--color-text-faint:#7c786f;--color-text-inverse:#1b1a18;--color-primary:#4f98a3;--color-primary-highlight:#313b3b;--shadow-sm:0 1px 2px rgba(0,0,0,.2);--shadow-md:0 10px 30px rgba(0,0,0,.28)}
+    *{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.6;background:var(--color-bg);color:var(--color-text)}button,input,select,textarea{font:inherit}a{color:inherit}table{width:100%;border-collapse:collapse}th,td{padding:.85rem .7rem;text-align:left;border-bottom:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);vertical-align:top}th{font-size:var(--text-sm);color:var(--color-text-muted)}
+    .app{max-width:1380px;margin:0 auto;padding:var(--space-6)}.topbar{display:flex;justify-content:space-between;gap:var(--space-4);align-items:flex-start;flex-wrap:wrap;margin-bottom:var(--space-6)}.brand{display:flex;gap:var(--space-3);align-items:center}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,var(--color-primary),var(--color-primary-highlight));display:grid;place-items:center;font-weight:800;color:white}.hero h1{margin:0;font-size:var(--text-xl);line-height:1.05}.hero p{margin:.25rem 0 0;color:var(--color-text-muted)}
+    .actions{display:flex;gap:var(--space-3);flex-wrap:wrap}.btn{border:1px solid color-mix(in srgb,var(--color-text) 12%,transparent);background:var(--color-surface);color:var(--color-text);padding:.85rem 1rem;border-radius:var(--radius-full);min-height:44px;cursor:pointer}.btn.primary{background:var(--color-primary);color:var(--color-text-inverse);border-color:var(--color-primary)}
+    .tabs{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-4)}.tab{padding:.75rem 1rem;border-radius:var(--radius-full);border:1px solid color-mix(in srgb,var(--color-text) 12%,transparent);background:var(--color-surface);cursor:pointer}.tab.active{background:var(--color-primary);color:var(--color-text-inverse);border-color:var(--color-primary)}
+    .view{display:none}.view.active{display:block}.panel{background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}.panel+.panel{margin-top:var(--space-4)}.hd{padding:var(--space-5);border-bottom:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)}.bd{padding:var(--space-5)}
+    .grid{display:grid;grid-template-columns:360px 1fr;gap:var(--space-6)}.stack{display:flex;flex-direction:column;gap:var(--space-4)}.field{display:flex;flex-direction:column;gap:.45rem}.input,.select,.textarea{width:100%;background:var(--color-surface-2);color:var(--color-text);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);border-radius:var(--radius-md);padding:.9rem 1rem;min-height:44px}.textarea{min-height:100px;resize:vertical}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4)}.kpi{padding:var(--space-4);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg)}.kpi .v{font-size:1.6rem;font-weight:800;line-height:1.1}.kpi .l{font-size:var(--text-sm);color:var(--color-text-muted)}
+    .list{display:grid;gap:var(--space-3)}.row{display:grid;grid-template-columns:1.2fr .8fr .65fr .8fr auto;gap:var(--space-3);align-items:center;padding:var(--space-4);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg)}
+    .pill{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .65rem;border-radius:999px;font-size:.82rem;font-weight:700}.keep{background:color-mix(in srgb,var(--color-success) 14%,transparent);color:var(--color-success)}.cut{background:color-mix(in srgb,var(--color-error) 14%,transparent);color:var(--color-error)}.review{background:color-mix(in srgb,var(--color-warning) 14%,transparent);color:var(--color-warning)}.muted{color:var(--color-text-muted)}.small{font-size:var(--text-sm)}.mono{font-family:var(--font-mono)}.chips{display:flex;gap:var(--space-3);flex-wrap:wrap}.chip{padding:.5rem .8rem;border-radius:999px;background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)}
+    .tax-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)} .calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4)} .box{padding:var(--space-4);background:var(--color-surface-2);border-radius:var(--radius-lg);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)}
+    @media (max-width:1024px){.grid{grid-template-columns:1fr}.kpis,.calc-grid{grid-template-columns:1fr 1fr}.tax-grid{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}.row .full{grid-column:1/-1}}
+    
+    .mail-grid{display:grid;grid-template-columns:340px 1fr;gap:var(--space-6)}
+    .mail-card{padding:var(--space-4);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg)}
+    .mail-item{padding:var(--space-4);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg);display:grid;gap:.45rem}
+
+    @media (max-width:1024px){.mail-grid{grid-template-columns:1fr}}
+    @media (max-width:640px){.app{padding:var(--space-4)}.kpis,.calc-grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><div class="logo">RC</div><div class="hero"><h1>Steuer und Abo Cockpit</h1><p>Ein lokales Dashboard für Sparkasse-/Bankumsätze, Abo-Prüfung und eine vorbereitende Steuerübersicht für ELSTER.</p></div></div>
+    <div class="actions"><button class="btn" id="themeBtn">🌙</button><button class="btn" id="loadDemo">Demo laden</button><button class="btn primary" id="exportAll">Alle Daten exportieren</button></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="abo">Abo Audit</button>
+    <button class="tab" data-tab="sparkasse">Sparkasse & Bank</button>
+    <button class="tab" data-tab="steuer">Steuer Vorbereitung</button>
+    <button class="tab" data-tab="elster">ELSTER Checkliste</button>
+    <button class="tab" data-tab="mail">E-Mail & Rechnungen</button>
+    <button class="tab" data-tab="assistant">Assistant</button>
+  </div>
+
+  <section id="abo" class="view active">
+    <div class="grid">
+      <div class="panel"><div class="hd"><h2>Neuer Kostenposten</h2><div class="muted small">PayPal, Karte, Apple, Bank, Shopify, Hosting und alles andere.</div></div>
+      <div class="bd stack">
+        <div class="field"><label>Dienst</label><input id="a_name" class="input" placeholder="OpenAI API"></div>
+        <div class="field"><label>Kategorie</label><select id="a_category" class="select"><option>AI/API</option><option>Hosting</option><option>Shopify App</option><option>SaaS</option><option>Medien</option><option>Apple/iPhone</option><option>Bank/Versicherung</option><option>Sonstiges</option></select></div>
+        <div class="field"><label>Monatsbetrag (€)</label><input id="a_amount" class="input" type="number" step="0.01"></div>
+        <div class="field"><label>Zahlungsquelle</label><select id="a_source" class="select"><option>PayPal</option><option>Kreditkarte</option><option>Bank</option><option>Apple</option><option>Google</option><option>Andere</option></select></div>
+        <div class="field"><label>Nutzung</label><select id="a_usage" class="select"><option>Täglich</option><option>Wöchentlich</option><option>Monatlich</option><option>Fast nie</option><option>Unklar</option></select></div>
+        <div class="field"><label>Zweck / Projekt</label><textarea id="a_purpose" class="textarea" placeholder="Wofür wird es wirklich gebraucht?"></textarea></div>
+        <button class="btn primary" id="a_add">Hinzufügen</button>
+      </div></div>
+      <div>
+        <div class="kpis">
+          <div class="kpi"><div class="l">Monatlich gesamt</div><div class="v" id="a_total">0,00 €</div></div>
+          <div class="kpi"><div class="l">Kündigen</div><div class="v" id="a_cut">0,00 €</div></div>
+          <div class="kpi"><div class="l">Behalten</div><div class="v" id="a_keep">0,00 €</div></div>
+          <div class="kpi"><div class="l">Jährlich sparen</div><div class="v" id="a_year">0,00 €</div></div>
+        </div>
+        <div class="panel"><div class="hd"><h2>Abo-Liste</h2></div><div class="bd"><div id="a_list" class="list"></div><div id="a_empty" class="muted">Noch keine Abo-Einträge.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sparkasse" class="view">
+    <div class="panel"><div class="hd"><h2>Sparkasse / Bank-Umsätze</h2><div class="muted small">CSV aus dem Online-Banking oder manuell eingeben. Ziel: wiederkehrende und geschäftliche Zahlungen erkennen.</div></div>
+      <div class="bd stack">
+        <div class="chips"><div class="chip">Sparkassen-Online-Banking kann Umsatzdaten exportieren.</div><div class="chip">CSV-Import ins Tool ist lokal im Browser.</div><div class="chip">Ideal für wiederkehrende Belastungen und Steuer-Vorsortierung.</div></div>
+        <div class="tax-grid">
+          <div class="field"><label>CSV importieren</label><input id="bankFile" class="input" type="file" accept=".csv,.txt"></div>
+          <div class="field"><label>Oder manuell Umsatz hinzufügen</label><button class="btn" id="bankDemo">Bank-Demo laden</button></div>
+        </div>
+        <div class="calc-grid">
+          <div class="kpi"><div class="l">Umsätze geladen</div><div class="v" id="b_count">0</div></div>
+          <div class="kpi"><div class="l">Wiederkehrend verdächtig</div><div class="v" id="b_recur">0</div></div>
+          <div class="kpi"><div class="l">Geschäftlich markiert</div><div class="v" id="b_business">0</div></div>
+          <div class="kpi"><div class="l">Ausgaben gesamt</div><div class="v" id="b_spend">0,00 €</div></div>
+        </div>
+        <table><thead><tr><th>Datum</th><th>Text</th><th>Betrag</th><th>Typ</th><th>Hinweis</th></tr></thead><tbody id="bankBody"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <section id="steuer" class="view">
+    <div class="grid">
+      <div class="panel"><div class="hd"><h2>Steuerdaten erfassen</h2><div class="muted small">Vorbereitung für ELSTER, nicht offizieller Steuerrechner.</div></div>
+        <div class="bd stack">
+          <div class="field"><label>Jahr</label><select id="t_year" class="select"><option>2025</option><option>2026</option></select></div>
+          <div class="field"><label>Art</label><select id="t_type" class="select"><option>Einnahme</option><option>Ausgabe</option><option>Privat nicht abziehbar</option></select></div>
+          <div class="field"><label>Kategorie</label><select id="t_cat" class="select"><option>Umsatz</option><option>Hosting</option><option>Software</option><option>AI/API</option><option>Werbung</option><option>Telefon/Internet</option><option>Fahrtkosten</option><option>Büro</option><option>Sonstiges</option></select></div>
+          <div class="field"><label>Betrag (€)</label><input id="t_amount" class="input" type="number" step="0.01"></div>
+          <div class="field"><label>Notiz</label><textarea id="t_note" class="textarea" placeholder="Beleg, Zweck, Projekt, Rechnung"></textarea></div>
+          <button class="btn primary" id="t_add">Steuerposten hinzufügen</button>
+        </div>
+      </div>
+      <div>
+        <div class="calc-grid">
+          <div class="kpi"><div class="l">Einnahmen</div><div class="v" id="t_income">0,00 €</div></div>
+          <div class="kpi"><div class="l">Ausgaben</div><div class="v" id="t_expense">0,00 €</div></div>
+          <div class="kpi"><div class="l">Vorläufiger Gewinn</div><div class="v" id="t_profit">0,00 €</div></div>
+          <div class="kpi"><div class="l">Nicht abziehbar</div><div class="v" id="t_private">0,00 €</div></div>
+        </div>
+        <div class="panel"><div class="hd"><h2>Steuerliste</h2></div><div class="bd"><table><thead><tr><th>Jahr</th><th>Art</th><th>Kategorie</th><th>Betrag</th><th>Notiz</th></tr></thead><tbody id="taxBody"></tbody></table></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="elster" class="view">
+    <div class="panel"><div class="hd"><h2>ELSTER Checkliste</h2><div class="muted small">Zum sauberen Vorbereiten vor dem eigentlichen Eintragen in Mein ELSTER.</div></div>
+      <div class="bd tax-grid">
+        <div class="box"><h3>1. Belege abrufen</h3><p class="muted">In Mein ELSTER kannst du die vorausgefüllte Steuererklärung und den Belegabruf nutzen, wenn du mit deiner Steuer-ID registriert bist.</p></div>
+        <div class="box"><h3>2. CSV/Import prüfen</h3><p class="muted">ELSTER unterstützt Importfunktionen und CSV-Schemata je nach Formular; dafür müssen Format und Version genau stimmen.</p></div>
+        <div class="box"><h3>3. Bankdaten vorbereiten</h3><p class="muted">Exportiere Sparkassen-Umsätze für einen Zeitraum und markiere betriebliche Ausgaben, damit du später sauber zuordnen kannst.</p></div>
+        <div class="box"><h3>4. Lokale Exportdateien</h3><p class="muted">Dieses Tool exportiert deine Daten als JSON, damit du sie später wieder laden oder in ein anderes Tool übernehmen kannst.</p></div>
+      </div>
+    </div>
+  </section>
+  <section id="mail" class="view">
+    <div class="panel"><div class="hd"><h2>E-Mail Sortierung & Rechnungssuche</h2><div class="muted small">Für mehrere Google-Konten vorbereitet: Suchbegriffe, Kontenliste, Rechnungssammler und Sortierlogik.</div></div>
+      <div class="bd">
+        <div class="mail-grid">
+          <div class="stack">
+            <div class="mail-card">
+              <h3>Google-Konten</h3>
+              <div class="muted small">Trage mehrere Gmail-/Google-Konten ein, die du später per OAuth anbinden willst.</div>
+              <div class="field" style="margin-top:1rem"><label>Konto E-Mail</label><input id="m_account" class="input" placeholder="name@gmail.com"></div>
+              <button class="btn primary" id="m_add_account" style="margin-top:1rem">Konto hinzufügen</button>
+              <div id="m_accounts" class="list" style="margin-top:1rem"></div>
+            </div>
+            <div class="mail-card">
+              <h3>Rechnungssuche</h3>
+              <div class="field" style="margin-top:1rem"><label>Suchwort</label><input id="m_query" class="input" value="invoice OR rechnung OR receipt OR payment OR paid"></div>
+              <div class="field"><label>Absender / Vendor</label><input id="m_vendor" class="input" placeholder="paypal, google, meta, contabo"></div>
+              <button class="btn" id="m_run" style="margin-top:1rem">Demo-Suche ausführen</button>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="calc-grid">
+              <div class="kpi"><div class="l">Konten</div><div class="v" id="m_acc_count">0</div></div>
+              <div class="kpi"><div class="l">Gefundene Rechnungen</div><div class="v" id="m_invoice_count">0</div></div>
+              <div class="kpi"><div class="l">Potentiell geschäftlich</div><div class="v" id="m_business_count">0</div></div>
+              <div class="kpi"><div class="l">Mit Betrag erkannt</div><div class="v" id="m_amount_count">0</div></div>
+            </div>
+            <div class="panel"><div class="hd"><h2>Rechnungsfunde</h2></div><div class="bd"><div id="m_results" class="list"></div><div id="m_empty" class="muted">Noch keine Ergebnisse. Nutze Demo-Suche oder binde später Gmail API an.</div></div></div>
+            <div class="panel"><div class="hd"><h2>Gmail API Hinweise</h2></div><div class="bd">
+              <table><thead><tr><th>Teil</th><th>Wofür</th></tr></thead><tbody>
+                <tr><td>OAuth 2.0</td><td>Jedes Google-Konto muss einzeln autorisiert werden.</td></tr>
+                <tr><td>Gmail API Search</td><td>Nach Suchbegriffen wie invoice, rechnung, receipt oder from:vendor suchen.</td></tr>
+                <tr><td>Mehrere Konten</td><td>Mehrere Tokens/Konten getrennt speichern und nacheinander durchsuchen.</td></tr>
+                <tr><td>Labels/Sortierung</td><td>Gefundene Mails können später in Kategorien wie Rechnung, Steuer, privat, unklar sortiert werden.</td></tr>
+              </tbody></table>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+<script>
+const state = { abos: [], bank: [], tax: [], mailAccounts: [], mailResults: [], assistantRules: [], cancelQueue: [] };
+const euro = v => new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(Number(v||0));
+const uid = () => Math.random().toString(36).slice(2,10);
+const classifyAbo = (x) => {
+  const t = (x.purpose||'').toLowerCase();
+  const productive = ['kunde','umsatz','live','produktion','wichtig','shop','aktiv'].some(k => t.includes(k));
+  if(productive || ['Täglich','Wöchentlich'].includes(x.usage)) return 'Behalten';
+  if(x.usage === 'Fast nie') return 'Kündigen';
+  return 'Prüfen';
+};
+function renderAbos(){
+  const list = document.getElementById('a_list'); const empty = document.getElementById('a_empty'); list.innerHTML='';
+  state.abos.forEach(x=>{ const cls = x.decision==='Behalten'?'keep':x.decision==='Kündigen'?'cut':'review'; const row=document.createElement('div'); row.className='row'; row.innerHTML=`<div class="full"><strong>${esc(x.name)}</strong><div class="muted small">${esc(x.purpose||'Kein Zweck')}</div></div><div>${esc(x.category)}</div><div><strong>${euro(x.amount)}</strong></div><div>${esc(x.source)}</div><div style="display:flex;gap:.5rem;flex-wrap:wrap"><select class="select" style="min-width:130px;padding:.55rem .75rem;height:auto"><option ${x.decision==='Behalten'?'selected':''}>Behalten</option><option ${x.decision==='Prüfen'?'selected':''}>Prüfen</option><option ${x.decision==='Kündigen'?'selected':''}>Kündigen</option></select><span class="pill ${cls}">${x.decision}</span><button class="btn">Löschen</button></div>`; row.querySelector('button').onclick=()=>{state.abos=state.abos.filter(i=>i.id!==x.id); renderAbos();}; row.querySelector('select').onchange=(e)=>{x.decision=e.target.value; renderAbos();}; list.appendChild(row);});
+  empty.style.display = state.abos.length ? 'none' : 'block';
+  const total = state.abos.reduce((a,b)=>a+Number(b.amount||0),0), cut=state.abos.filter(x=>x.decision==='Kündigen').reduce((a,b)=>a+Number(b.amount||0),0), keep=state.abos.filter(x=>x.decision==='Behalten').reduce((a,b)=>a+Number(b.amount||0),0);
+  document.getElementById('a_total').textContent=euro(total); document.getElementById('a_cut').textContent=euro(cut); document.getElementById('a_keep').textContent=euro(keep); document.getElementById('a_year').textContent=euro(cut*12);
+}
+function renderBank(){
+  const body = document.getElementById('bankBody'); body.innerHTML='';
+  const groups={}; state.bank.forEach(r=>{ const key=(r.text||'').toLowerCase().replace(/\d+/g,'').trim(); groups[key]=(groups[key]||0)+1; });
+  let recur=0,business=0,spend=0;
+  state.bank.forEach(r=>{ const rec = groups[(r.text||'').toLowerCase().replace(/\d+/g,'').trim()] >= 2; if(rec) recur++; const biz = /(hosting|shopify|openai|anthropic|railway|contabo|cloudflare|meta|google ads|server|api|software|paypal)/i.test(r.text||''); if(biz) business++; if(Number(r.amount)<0) spend += Math.abs(Number(r.amount)); const tr=document.createElement('tr'); tr.innerHTML=`<td>${esc(r.date||'')}</td><td>${esc(r.text||'')}</td><td>${euro(r.amount)}</td><td>${Number(r.amount)<0?'Ausgabe':'Eingang'}</td><td>${rec?'Wiederkehrend verdächtig':''}${rec&&biz?' · ':''}${biz?'geschäftlich möglich':''}</td>`; body.appendChild(tr); });
+  document.getElementById('b_count').textContent=state.bank.length; document.getElementById('b_recur').textContent=recur; document.getElementById('b_business').textContent=business; document.getElementById('b_spend').textContent=euro(spend);
+}
+function renderTax(){
+  const body = document.getElementById('taxBody'); body.innerHTML=''; let income=0,expense=0,privateN=0;
+  state.tax.forEach(r=>{ if(r.type==='Einnahme') income += Number(r.amount); if(r.type==='Ausgabe') expense += Number(r.amount); if(r.type==='Privat nicht abziehbar') privateN += Number(r.amount); const tr=document.createElement('tr'); tr.innerHTML=`<td>${esc(r.year)}</td><td>${esc(r.type)}</td><td>${esc(r.category)}</td><td>${euro(r.amount)}</td><td>${esc(r.note||'')}</td>`; body.appendChild(tr); });
+  document.getElementById('t_income').textContent=euro(income); document.getElementById('t_expense').textContent=euro(expense); document.getElementById('t_profit').textContent=euro(income-expense); document.getElementById('t_private').textContent=euro(privateN);
+}
+function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+
+function renderAssistant(){
+  const rulesWrap = document.getElementById('as_rules'); const queueWrap = document.getElementById('as_queue'); const rulesEmpty=document.getElementById('as_rules_empty'); const queueEmpty=document.getElementById('as_queue_empty');
+  rulesWrap.innerHTML=''; queueWrap.innerHTML='';
+  let projectRelevant = 0;
+  state.assistantRules.forEach(r=>{ const card=document.createElement('div'); card.className='mail-item'; card.innerHTML=`<div><strong>${esc(r.project)}</strong></div><div class="small muted">Keywords: ${esc(r.keywords)} · ${esc(r.days)} Tage vorher · ${esc(r.action)}</div><div><button class="btn">Entfernen</button></div>`; card.querySelector('button').onclick=()=>{state.assistantRules=state.assistantRules.filter(x=>x.id!==r.id); renderAssistant();}; rulesWrap.appendChild(card); });
+  state.cancelQueue.forEach(q=>{ if(q.projectRelevant) projectRelevant++; const card=document.createElement('div'); card.className='mail-item'; card.innerHTML=`<div><strong>${esc(q.name)}</strong></div><div class="small muted">${esc(q.source)} · ${esc(q.mode)} · ${esc(q.when)}</div><div>${esc(q.reason)}</div><div style="display:flex;gap:.5rem;flex-wrap:wrap"><span class="pill ${q.kind==='Auto kündigen'?'cut':q.kind==='Suspendieren'?'review':'keep'}">${esc(q.kind)}</span>${q.projectRelevant?'<span class="pill keep">Projekt-relevant</span>':'<span class="pill review">Nicht klar relevant</span>'}<button class="btn">Erledigt</button></div>`; card.querySelector('button').onclick=()=>{state.cancelQueue=state.cancelQueue.filter(x=>x.id!==q.id); renderAssistant();}; queueWrap.appendChild(card); });
+  rulesEmpty.style.display = state.assistantRules.length ? 'none':'block'; queueEmpty.style.display = state.cancelQueue.length ? 'none':'block';
+  document.getElementById('as_rule_count').textContent = state.assistantRules.length;
+  document.getElementById('as_queue_count').textContent = state.cancelQueue.length;
+  document.getElementById('as_remind_count').textContent = state.cancelQueue.filter(x=>x.kind==='Erinnern').length;
+  document.getElementById('as_project_count').textContent = projectRelevant;
+}
+function inferProjectRelevant(name){
+  const lower = String(name||'').toLowerCase();
+  return state.assistantRules.some(r => String(r.keywords||'').toLowerCase().split(',').map(s=>s.trim()).filter(Boolean).some(k => lower.includes(k)));
+}
+function renderMail(){
+  const accWrap = document.getElementById('m_accounts'); const resWrap = document.getElementById('m_results'); const empty = document.getElementById('m_empty');
+  accWrap.innerHTML=''; resWrap.innerHTML='';
+  state.mailAccounts.forEach(a=>{ const d=document.createElement('div'); d.className='mail-item'; d.innerHTML=`<div><strong>${esc(a.email)}</strong></div><div class="muted small">OAuth später pro Konto verbinden</div><div><button class="btn">Entfernen</button></div>`; d.querySelector('button').onclick=()=>{state.mailAccounts=state.mailAccounts.filter(x=>x.id!==a.id); renderMail();}; accWrap.appendChild(d); });
+  let business=0, amountFound=0;
+  state.mailResults.forEach(r=>{ if(r.business) business++; if(r.amount) amountFound++; const card=document.createElement('div'); card.className='mail-item'; card.innerHTML=`<div><strong>${esc(r.subject)}</strong></div><div class="small muted">${esc(r.account)} · ${esc(r.from)} · ${esc(r.date)}</div><div>${esc(r.snippet)}</div><div style="display:flex;gap:.5rem;flex-wrap:wrap"><span class="pill ${r.business?'keep':'review'}">${r.business?'geschäftlich':'prüfen'}</span>${r.amount?`<span class="pill cut">${esc(r.amount)}</span>`:''}<span class="pill review">${esc(r.tag)}</span></div>`; resWrap.appendChild(card); });
+  empty.style.display = state.mailResults.length ? 'none' : 'block';
+  document.getElementById('m_acc_count').textContent = state.mailAccounts.length;
+  document.getElementById('m_invoice_count').textContent = state.mailResults.length;
+  document.getElementById('m_business_count').textContent = business;
+  document.getElementById('m_amount_count').textContent = amountFound;
+}
+
+document.querySelectorAll('.tab').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active');});
+document.getElementById('a_add').onclick=()=>{const name=document.getElementById('a_name').value.trim(); const amount=parseFloat(document.getElementById('a_amount').value||'0'); if(!name) return alert('Bitte Dienst eintragen.'); const item={id:uid(),name,category:document.getElementById('a_category').value,amount,source:document.getElementById('a_source').value,usage:document.getElementById('a_usage').value,purpose:document.getElementById('a_purpose').value.trim()}; item.decision=classifyAbo(item); state.abos.push(item); renderAbos(); };
+document.getElementById('bankDemo').onclick=()=>{ state.bank = [
+  {date:'2026-05-02',text:'PAYPAL *SHOPIFY APP',amount:-19.0},
+  {date:'2026-05-03',text:'OPENAI API',amount:-59.0},
+  {date:'2026-05-05',text:'CONTABO GMBH',amount:-14.0},
+  {date:'2026-05-14',text:'KUNDENZAHLUNG SHOPIFY',amount:420.0},
+  {date:'2026-06-02',text:'PAYPAL *SHOPIFY APP',amount:-19.0},
+  {date:'2026-06-03',text:'OPENAI API',amount:-35.0},
+  {date:'2026-06-06',text:'SPOTIFY',amount:-10.99}
+]; renderBank(); };
+document.getElementById('bankFile').addEventListener('change', async (e)=>{ const f=e.target.files[0]; if(!f) return; const txt=await f.text(); const lines=txt.split(/\r?\n/).filter(Boolean); const rows=[]; for(const line of lines.slice(1)){ const parts=line.split(/[;,]/); if(parts.length>=3){ const date=parts[0]?.trim(); const text=parts[1]?.trim(); const amtRaw=(parts[2]||'0').replace(/\./g,'').replace(',', '.'); const amount=parseFloat(amtRaw); if(text) rows.push({date,text,amount:isNaN(amount)?0:amount}); } } state.bank=rows; renderBank(); });
+document.getElementById('t_add').onclick=()=>{ const amount=parseFloat(document.getElementById('t_amount').value||'0'); const row={id:uid(),year:document.getElementById('t_year').value,type:document.getElementById('t_type').value,category:document.getElementById('t_cat').value,amount,note:document.getElementById('t_note').value.trim()}; state.tax.push(row); renderTax(); };
+document.getElementById('loadDemo').onclick=()=>{
+  state.abos=[]; [
+    {name:'OpenAI API',category:'AI/API',amount:59,source:'Kreditkarte',usage:'Wöchentlich',purpose:'Aktive Automationen und Kundenprojekte aktiv'},
+    {name:'Railway',category:'Hosting',amount:24,source:'Kreditkarte',usage:'Fast nie',purpose:'Altes Testprojekt'},
+    {name:'Shopify App XYZ',category:'Shopify App',amount:19,source:'PayPal',usage:'Fast nie',purpose:'Nur getestet'},
+    {name:'YouTube Premium',category:'Medien',amount:12.99,source:'Apple',usage:'Täglich',purpose:'Tägliche Nutzung'}
+  ].forEach(x=>state.abos.push({id:uid(),decision:classifyAbo(x),...x}));
+  state.tax=[
+    {id:uid(),year:'2025',type:'Einnahme',category:'Umsatz',amount:12000,note:'Shopify / Automationskunden'},
+    {id:uid(),year:'2025',type:'Ausgabe',category:'Hosting',amount:780,note:'Server und Deployments'},
+    {id:uid(),year:'2025',type:'Ausgabe',category:'AI/API',amount:1450,note:'OpenAI, Claude, Gemini Tests'},
+    {id:uid(),year:'2025',type:'Privat nicht abziehbar',category:'Sonstiges',amount:220,note:'Privatkäufe'}
+  ]; renderAbos(); renderTax(); };
+
+
+document.getElementById('as_add_rule').onclick=()=>{ const project=document.getElementById('as_project').value.trim(); if(!project) return alert('Bitte Projektname angeben.'); state.assistantRules.push({id:uid(), project, keywords:document.getElementById('as_keywords').value.trim(), days:document.getElementById('as_days').value, action:document.getElementById('as_action').value}); document.getElementById('as_project').value=''; document.getElementById('as_keywords').value=''; renderAssistant(); };
+document.getElementById('pp_demo_queue').onclick=()=>{ const source = 'PayPal ' + document.getElementById('pp_mode').value; const suggestions = state.abos.length ? state.abos : [{name:'Railway',source:'Kreditkarte',decision:'Kündigen'},{name:'Shopify App XYZ',source:'PayPal',decision:'Kündigen'},{name:'OpenAI API',source:'Kreditkarte',decision:'Behalten'}]; state.cancelQueue = suggestions.filter(x=>x.decision!=='Behalten').map(x=>({ id:uid(), name:x.name, source:x.source || source, mode: x.source==='PayPal' ? 'API möglich' : 'Manuell/Link', when: '7 Tage vor Verlängerung', kind: x.source==='PayPal' ? 'Suspendieren' : 'Erinnern', reason: 'Basierend auf Nutzung, Projektbezug und Kostenprüfung', projectRelevant: inferProjectRelevant(x.name) })); renderAssistant(); };
+document.getElementById('m_add_account').onclick=()=>{ const email=document.getElementById('m_account').value.trim(); if(!email) return alert('Bitte Konto E-Mail eintragen.'); state.mailAccounts.push({id:uid(),email}); document.getElementById('m_account').value=''; renderMail(); };
+document.getElementById('m_run').onclick=()=>{ const vendor=(document.getElementById('m_vendor').value||'').toLowerCase(); state.mailResults = [
+  {account: state.mailAccounts[0]?.email || 'konto1@gmail.com', from:'service@paypal.com', date:'2026-06-02', subject:'Your receipt from PayPal', snippet:'Payment confirmation for Shopify App subscription.', amount:'19,00 EUR', business:true, tag:'Rechnung'},
+  {account: state.mailAccounts[1]?.email || 'konto2@gmail.com', from:'billing@openai.com', date:'2026-06-03', subject:'OpenAI receipt available', snippet:'Invoice for API usage this month.', amount:'59,00 EUR', business:true, tag:'AI/API'},
+  {account: state.mailAccounts[0]?.email || 'konto1@gmail.com', from:'no-reply@spotify.com', date:'2026-06-04', subject:'Your Spotify payment receipt', snippet:'Monthly personal subscription payment.', amount:'10,99 EUR', business:false, tag:'Privat'}
+  ].filter(x => !vendor || x.from.toLowerCase().includes(vendor) || x.subject.toLowerCase().includes(vendor) || x.snippet.toLowerCase().includes(vendor)); renderMail(); };
+document.getElementById('exportAll').onclick=()=>{ const data = JSON.stringify(state,null,2); const blob=new Blob([data],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='steuer-abo-cockpit-export.json'; a.click(); URL.revokeObjectURL(a.href); };
+(function(){let d=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; document.documentElement.setAttribute('data-theme',d); const b=document.getElementById('themeBtn'); b.textContent=d==='dark'?'☀️':'🌙'; b.onclick=()=>{d=d==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme',d); b.textContent=d==='dark'?'☀️':'🌙';};})();
+renderAbos(); renderBank(); renderTax(); renderMail(); renderAssistant();
+</script>
+</body>
+</html>
