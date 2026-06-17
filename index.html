@@ -11,30 +11,76 @@
     :root,[data-theme="light"]{--text-xs:clamp(.75rem,.7rem + .25vw,.875rem);--text-sm:clamp(.875rem,.8rem + .35vw,1rem);--text-base:clamp(1rem,.95rem + .25vw,1.125rem);--text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);--text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);--space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;--color-surface-offset:#f3f0ec;--color-border:#d4d1ca;--color-text:#28251d;--color-text-muted:#66625b;--color-text-faint:#9e9a92;--color-text-inverse:#f9f8f4;--color-primary:#01696f;--color-primary-highlight:#cedcd8;--color-warning:#964219;--color-error:#a12c7b;--color-success:#437a22;--radius-sm:.375rem;--radius-md:.75rem;--radius-lg:1rem;--radius-xl:1.25rem;--radius-full:9999px;--shadow-sm:0 1px 2px rgba(0,0,0,.05);--shadow-md:0 10px 30px rgba(0,0,0,.08);--font-body:'Manrope',system-ui,sans-serif;--font-mono:'IBM Plex Mono',monospace}
     [data-theme="dark"]{--color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;--color-surface-offset:#252321;--color-border:#393836;--color-text:#ece7de;--color-text-muted:#b3aea4;--color-text-faint:#7c786f;--color-text-inverse:#1b1a18;--color-primary:#4f98a3;--color-primary-highlight:#313b3b;--shadow-sm:0 1px 2px rgba(0,0,0,.2);--shadow-md:0 10px 30px rgba(0,0,0,.28)}
     *{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.6;background:var(--color-bg);color:var(--color-text)}button,input,select,textarea{font:inherit}a{color:inherit}table{width:100%;border-collapse:collapse}th,td{padding:.85rem .7rem;text-align:left;border-bottom:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);vertical-align:top}th{font-size:var(--text-sm);color:var(--color-text-muted)}
-    .app{max-width:1380px;margin:0 auto;padding:var(--space-6)}.topbar{display:flex;justify-content:space-between;gap:var(--space-4);align-items:flex-start;flex-wrap:wrap;margin-bottom:var(--space-6)}.brand{display:flex;gap:var(--space-3);align-items:center}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,var(--color-primary),var(--color-primary-highlight));display:grid;place-items:center;font-weight:800;color:white}.hero h1{margin:0;font-size:var(--text-xl);line-height:1.05}.hero p{margin:.25rem 0 0;color:var(--color-text-muted)}
-    .actions{display:flex;gap:var(--space-3);flex-wrap:wrap}.btn{border:1px solid color-mix(in srgb,var(--color-text) 12%,transparent);background:var(--color-surface);color:var(--color-text);padding:.85rem 1rem;border-radius:var(--radius-full);min-height:44px;cursor:pointer}.btn.primary{background:var(--color-primary);color:var(--color-text-inverse);border-color:var(--color-primary)}
+    .app{max-width:1380px;margin:0 auto;padding:var(--space-6)}.topbar{display:flex;justify-content:space-between;gap:var(--space-4);align-items:flex-start;flex-wrap:wrap;margin-bottom:var(--space-6)}.brand{display:flex;gap:var(--space-3);align-items:center}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,var(--color-primary),var(--color-primary-highlight));display:grid;place-items:center;font-weight:800;color:white;font-size:1.1rem}.hero h1{margin:0;font-size:var(--text-xl);line-height:1.05}.hero p{margin:.25rem 0 0;color:var(--color-text-muted)}
+    .actions{display:flex;gap:var(--space-3);flex-wrap:wrap}.btn{border:1px solid color-mix(in srgb,var(--color-text) 12%,transparent);background:var(--color-surface);color:var(--color-text);padding:.85rem 1rem;border-radius:var(--radius-full);min-height:44px;cursor:pointer;transition:opacity .15s}.btn:hover{opacity:.85}.btn.primary{background:var(--color-primary);color:var(--color-text-inverse);border-color:var(--color-primary)}.btn.upgrade{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;border-color:transparent}
     .tabs{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-4)}.tab{padding:.75rem 1rem;border-radius:var(--radius-full);border:1px solid color-mix(in srgb,var(--color-text) 12%,transparent);background:var(--color-surface);cursor:pointer}.tab.active{background:var(--color-primary);color:var(--color-text-inverse);border-color:var(--color-primary)}
     .view{display:none}.view.active{display:block}.panel{background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}.panel+.panel{margin-top:var(--space-4)}.hd{padding:var(--space-5);border-bottom:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)}.bd{padding:var(--space-5)}
     .grid{display:grid;grid-template-columns:360px 1fr;gap:var(--space-6)}.stack{display:flex;flex-direction:column;gap:var(--space-4)}.field{display:flex;flex-direction:column;gap:.45rem}.input,.select,.textarea{width:100%;background:var(--color-surface-2);color:var(--color-text);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);border-radius:var(--radius-md);padding:.9rem 1rem;min-height:44px}.textarea{min-height:100px;resize:vertical}
     .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4)}.kpi{padding:var(--space-4);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg)}.kpi .v{font-size:1.6rem;font-weight:800;line-height:1.1}.kpi .l{font-size:var(--text-sm);color:var(--color-text-muted)}
     .list{display:grid;gap:var(--space-3)}.row{display:grid;grid-template-columns:1.2fr .8fr .65fr .8fr auto;gap:var(--space-3);align-items:center;padding:var(--space-4);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg)}
     .pill{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .65rem;border-radius:999px;font-size:.82rem;font-weight:700}.keep{background:color-mix(in srgb,var(--color-success) 14%,transparent);color:var(--color-success)}.cut{background:color-mix(in srgb,var(--color-error) 14%,transparent);color:var(--color-error)}.review{background:color-mix(in srgb,var(--color-warning) 14%,transparent);color:var(--color-warning)}.muted{color:var(--color-text-muted)}.small{font-size:var(--text-sm)}.mono{font-family:var(--font-mono)}.chips{display:flex;gap:var(--space-3);flex-wrap:wrap}.chip{padding:.5rem .8rem;border-radius:999px;background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)}
-    .tax-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)} .calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4)} .box{padding:var(--space-4);background:var(--color-surface-2);border-radius:var(--radius-lg);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)}
-    @media (max-width:1024px){.grid{grid-template-columns:1fr}.kpis,.calc-grid{grid-template-columns:1fr 1fr}.tax-grid{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}.row .full{grid-column:1/-1}}
-    
-    .mail-grid{display:grid;grid-template-columns:340px 1fr;gap:var(--space-6)}
-    .mail-card{padding:var(--space-4);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg)}
-    .mail-item{padding:var(--space-4);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg);display:grid;gap:.45rem}
-
-    @media (max-width:1024px){.mail-grid{grid-template-columns:1fr}}
+    .tax-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4)}.box{padding:var(--space-4);background:var(--color-surface-2);border-radius:var(--radius-lg);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)}
+    .mail-grid{display:grid;grid-template-columns:340px 1fr;gap:var(--space-6)}.mail-card{padding:var(--space-4);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg)}.mail-item{padding:var(--space-4);background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg);display:grid;gap:.45rem}
+    /* Pricing Modal */
+    .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:100;place-items:center}.modal-backdrop.open{display:grid}.modal{background:var(--color-surface);border-radius:var(--radius-xl);padding:var(--space-8);max-width:700px;width:90vw;position:relative;box-shadow:var(--shadow-md)}.modal h2{margin:0 0 var(--space-2);font-size:var(--text-lg)}.modal-close{position:absolute;top:var(--space-4);right:var(--space-4);background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--color-text-muted)}.plans{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-top:var(--space-6)}.plan-card{border:2px solid color-mix(in srgb,var(--color-text) 12%,transparent);border-radius:var(--radius-xl);padding:var(--space-6)}.plan-card.featured{border-color:var(--color-primary)}.plan-card .price{font-size:2rem;font-weight:800;line-height:1}.plan-card ul{list-style:none;padding:0;margin:var(--space-4) 0}.plan-card li{padding:.35rem 0;color:var(--color-text-muted)}.plan-card li::before{content:"✓ ";color:var(--color-success);font-weight:700}
+    /* AI Badge */
+    .ai-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .6rem;border-radius:999px;background:linear-gradient(135deg,#7c3aed22,#2563eb22);border:1px solid #7c3aed44;font-size:.8rem;color:#7c3aed;font-weight:700}.spinner{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    /* Success banner */
+    .success-banner{background:color-mix(in srgb,var(--color-success) 12%,transparent);border:1px solid color-mix(in srgb,var(--color-success) 30%,transparent);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-4);display:none}.success-banner.show{display:block}
+    @media (max-width:1024px){.grid{grid-template-columns:1fr}.kpis,.calc-grid{grid-template-columns:1fr 1fr}.tax-grid{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}.row .full{grid-column:1/-1}.mail-grid{grid-template-columns:1fr}.plans{grid-template-columns:1fr}}
     @media (max-width:640px){.app{padding:var(--space-4)}.kpis,.calc-grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
+<!-- Pricing Modal -->
+<div class="modal-backdrop" id="pricingModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <h2>Steuer Cockpit Pro</h2>
+    <p class="muted">KI-Klassifizierung, unbegrenzte Einträge, Auto-Export & Priority Support.</p>
+    <div class="plans">
+      <div class="plan-card">
+        <div class="price">€29<span style="font-size:1rem;font-weight:400">/Monat</span></div>
+        <div class="muted small" style="margin:.5rem 0">14 Tage kostenlos testen</div>
+        <ul>
+          <li>KI Abo-Analyse (Claude)</li>
+          <li>Unbegrenzte Einträge</li>
+          <li>CSV-Export (Excel/ELSTER)</li>
+          <li>Tägliche Zusammenfassung</li>
+          <li>Email Support</li>
+        </ul>
+        <button class="btn primary" style="width:100%" onclick="startCheckout('monthly')">Jetzt starten</button>
+      </div>
+      <div class="plan-card featured">
+        <div style="font-size:.8rem;font-weight:700;color:var(--color-primary);margin-bottom:.5rem">EINMALZAHLUNG — BEST VALUE</div>
+        <div class="price">€149<span style="font-size:1rem;font-weight:400"> einmalig</span></div>
+        <div class="muted small" style="margin:.5rem 0">Lifetime-Zugang · kein Abo</div>
+        <ul>
+          <li>Alles aus Monthly</li>
+          <li>Lifetime Updates</li>
+          <li>ELSTER-Vorbereitung</li>
+          <li>Gmail API Integration</li>
+          <li>Priority Support</li>
+        </ul>
+        <button class="btn upgrade" style="width:100%" onclick="startCheckout('lifetime')">Lifetime kaufen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="app">
+  <div id="successBanner" class="success-banner">
+    ✅ <strong>Zahlung erfolgreich!</strong> Dein Pro-Zugang ist aktiviert. Danke für dein Vertrauen!
+  </div>
+
   <div class="topbar">
-    <div class="brand"><div class="logo">RC</div><div class="hero"><h1>Steuer und Abo Cockpit</h1><p>Ein lokales Dashboard für Sparkasse-/Bankumsätze, Abo-Prüfung und eine vorbereitende Steuerübersicht für ELSTER.</p></div></div>
-    <div class="actions"><button class="btn" id="themeBtn">🌙</button><button class="btn" id="loadDemo">Demo laden</button><button class="btn primary" id="exportAll">Alle Daten exportieren</button></div>
+    <div class="brand"><div class="logo">RC</div><div class="hero"><h1>Steuer und Abo Cockpit</h1><p>KI-gestütztes Dashboard für Abos, Rechnungen, Bankumsätze und ELSTER-Vorbereitung.</p></div></div>
+    <div class="actions">
+      <button class="btn" id="themeBtn">🌙</button>
+      <button class="btn" id="loadDemo">Demo laden</button>
+      <button class="btn upgrade" id="upgradeBtn">🚀 Pro freischalten</button>
+      <button class="btn primary" id="exportAll">Alle Daten exportieren</button>
+    </div>
   </div>
 
   <div class="tabs">
@@ -43,7 +89,7 @@
     <button class="tab" data-tab="steuer">Steuer Vorbereitung</button>
     <button class="tab" data-tab="elster">ELSTER Checkliste</button>
     <button class="tab" data-tab="mail">E-Mail & Rechnungen</button>
-    <button class="tab" data-tab="assistant">Assistant</button>
+    <button class="tab" data-tab="assistant">Kündigen-Assistent</button>
   </div>
 
   <section id="abo" class="view active">
@@ -56,7 +102,13 @@
         <div class="field"><label>Zahlungsquelle</label><select id="a_source" class="select"><option>PayPal</option><option>Kreditkarte</option><option>Bank</option><option>Apple</option><option>Google</option><option>Andere</option></select></div>
         <div class="field"><label>Nutzung</label><select id="a_usage" class="select"><option>Täglich</option><option>Wöchentlich</option><option>Monatlich</option><option>Fast nie</option><option>Unklar</option></select></div>
         <div class="field"><label>Zweck / Projekt</label><textarea id="a_purpose" class="textarea" placeholder="Wofür wird es wirklich gebraucht?"></textarea></div>
-        <button class="btn primary" id="a_add">Hinzufügen</button>
+        <button class="btn primary" id="a_add" style="display:flex;align-items:center;justify-content:center;gap:.5rem">
+          <span id="a_add_text">KI-Analyse & Hinzufügen</span>
+          <span id="a_spinner" style="display:none"><span class="spinner"></span></span>
+        </button>
+        <div class="muted small" style="text-align:center">
+          <span class="ai-badge">✨ Claude AI</span> klassifiziert automatisch: Behalten / Kündigen / Prüfen
+        </div>
       </div></div>
       <div>
         <div class="kpis">
@@ -123,6 +175,7 @@
       </div>
     </div>
   </section>
+
   <section id="mail" class="view">
     <div class="panel"><div class="hd"><h2>E-Mail Sortierung & Rechnungssuche</h2><div class="muted small">Für mehrere Google-Konten vorbereitet: Suchbegriffe, Kontenliste, Rechnungssammler und Sortierlogik.</div></div>
       <div class="bd">
@@ -164,25 +217,109 @@
     </div>
   </section>
 
+  <section id="assistant" class="view">
+    <div class="grid">
+      <div class="panel"><div class="hd"><h2>Neue Kündige-Regel</h2><div class="muted small">Definiere Regeln: Welche Abos für welches Projekt sind kritisch?</div></div>
+        <div class="bd stack">
+          <div class="field"><label>Projektname</label><input id="as_project" class="input" placeholder="SuperMegaBot Automation"></div>
+          <div class="field"><label>Keywords (kommagetrennt)</label><input id="as_keywords" class="input" placeholder="railway, openai, github, anthropic"></div>
+          <div class="field"><label>Tage vor Verlängerung erinnern</label><select id="as_days" class="select"><option>3</option><option>7</option><option>14</option><option>30</option></select></div>
+          <div class="field"><label>Aktion</label><select id="as_action" class="select"><option>Erinnern</option><option>Auto kündigen (PayPal)</option><option>Suspendieren</option></select></div>
+          <button class="btn primary" id="as_add_rule">Regel speichern</button>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="calc-grid">
+          <div class="kpi"><div class="l">Regeln aktiv</div><div class="v" id="as_rule_count">0</div></div>
+          <div class="kpi"><div class="l">Kündigungen ausstehend</div><div class="v" id="as_queue_count">0</div></div>
+          <div class="kpi"><div class="l">Erinnerungen</div><div class="v" id="as_remind_count">0</div></div>
+          <div class="kpi"><div class="l">Projekt-relevant</div><div class="v" id="as_project_count">0</div></div>
+        </div>
+        <div class="panel">
+          <div class="hd" style="display:flex;justify-content:space-between;align-items:center">
+            <h2>Kündigungs-Queue</h2>
+            <div style="display:flex;gap:var(--space-3);align-items:center">
+              <select id="pp_mode" class="select" style="width:auto;min-width:150px">
+                <option>Automatisch</option><option>Manuell/Link</option><option>Suspendieren</option>
+              </select>
+              <button class="btn" id="pp_demo_queue">Demo-Queue aus Abo-Liste</button>
+            </div>
+          </div>
+          <div class="bd"><div id="as_queue" class="list"></div><div id="as_queue_empty" class="muted">Keine Einträge. Lade Demo oder füge Abos in Abo Audit hinzu.</div></div>
+        </div>
+        <div class="panel"><div class="hd"><h2>Aktive Regeln</h2></div><div class="bd"><div id="as_rules" class="list"></div><div id="as_rules_empty" class="muted">Keine Regeln definiert.</div></div></div>
+      </div>
+    </div>
+  </section>
 </div>
+
 <script>
 const state = { abos: [], bank: [], tax: [], mailAccounts: [], mailResults: [], assistantRules: [], cancelQueue: [] };
 const euro = v => new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(Number(v||0));
 const uid = () => Math.random().toString(36).slice(2,10);
-const classifyAbo = (x) => {
+
+// ── AI Classify via backend ───────────────────────────────────────────────────
+async function classifyAboAI(x) {
+  const text = `Dienst: ${x.name}\nKategorie: ${x.category}\nBetrag: €${x.amount}/Monat\nNutzung: ${x.usage}\nZweck: ${x.purpose || 'nicht angegeben'}`;
+  try {
+    const res = await fetch('/api/classify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, type: 'abo' })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data.decision || classifyAboLocal(x);
+    }
+  } catch (_) {}
+  return classifyAboLocal(x);
+}
+
+function classifyAboLocal(x) {
   const t = (x.purpose||'').toLowerCase();
   const productive = ['kunde','umsatz','live','produktion','wichtig','shop','aktiv'].some(k => t.includes(k));
   if(productive || ['Täglich','Wöchentlich'].includes(x.usage)) return 'Behalten';
   if(x.usage === 'Fast nie') return 'Kündigen';
   return 'Prüfen';
-};
+}
+
+// ── Pricing / Checkout ────────────────────────────────────────────────────────
+async function startCheckout(plan) {
+  const btn = event?.target;
+  if (btn) { btn.disabled = true; btn.textContent = 'Wird geladen…'; }
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan })
+    });
+    const data = await res.json();
+    if (data.url) { window.location.href = data.url; }
+    else { alert('Fehler: ' + (data.error || 'Unbekannt')); if(btn){btn.disabled=false;btn.textContent=plan==='lifetime'?'Lifetime kaufen':'Jetzt starten';} }
+  } catch (e) {
+    alert('Verbindungsfehler. Bitte erneut versuchen.');
+    if(btn){btn.disabled=false;btn.textContent=plan==='lifetime'?'Lifetime kaufen':'Jetzt starten';}
+  }
+}
+
+// Show modal
+document.getElementById('upgradeBtn').onclick = () => document.getElementById('pricingModal').classList.add('open');
+document.getElementById('modalClose').onclick = () => document.getElementById('pricingModal').classList.remove('open');
+document.getElementById('pricingModal').onclick = (e) => { if(e.target===e.currentTarget) e.currentTarget.classList.remove('open'); };
+
+// Show success banner on return from Stripe
+if (new URLSearchParams(location.search).get('success') === 'true') {
+  document.getElementById('successBanner').classList.add('show');
+}
+
 function renderAbos(){
   const list = document.getElementById('a_list'); const empty = document.getElementById('a_empty'); list.innerHTML='';
-  state.abos.forEach(x=>{ const cls = x.decision==='Behalten'?'keep':x.decision==='Kündigen'?'cut':'review'; const row=document.createElement('div'); row.className='row'; row.innerHTML=`<div class="full"><strong>${esc(x.name)}</strong><div class="muted small">${esc(x.purpose||'Kein Zweck')}</div></div><div>${esc(x.category)}</div><div><strong>${euro(x.amount)}</strong></div><div>${esc(x.source)}</div><div style="display:flex;gap:.5rem;flex-wrap:wrap"><select class="select" style="min-width:130px;padding:.55rem .75rem;height:auto"><option ${x.decision==='Behalten'?'selected':''}>Behalten</option><option ${x.decision==='Prüfen'?'selected':''}>Prüfen</option><option ${x.decision==='Kündigen'?'selected':''}>Kündigen</option></select><span class="pill ${cls}">${x.decision}</span><button class="btn">Löschen</button></div>`; row.querySelector('button').onclick=()=>{state.abos=state.abos.filter(i=>i.id!==x.id); renderAbos();}; row.querySelector('select').onchange=(e)=>{x.decision=e.target.value; renderAbos();}; list.appendChild(row);});
+  state.abos.forEach(x=>{ const cls = x.decision==='Behalten'?'keep':x.decision==='Kündigen'?'cut':'review'; const row=document.createElement('div'); row.className='row'; row.innerHTML=`<div class="full"><strong>${esc(x.name)}</strong><div class="muted small">${esc(x.purpose||'Kein Zweck')}</div>${x.aiReason?`<div class="muted small" style="margin-top:.25rem"><span class="ai-badge">✨ KI</span> ${esc(x.aiReason)}</div>`:''}</div><div>${esc(x.category)}</div><div><strong>${euro(x.amount)}</strong></div><div>${esc(x.source)}</div><div style="display:flex;gap:.5rem;flex-wrap:wrap"><select class="select" style="min-width:130px;padding:.55rem .75rem;height:auto"><option ${x.decision==='Behalten'?'selected':''}>Behalten</option><option ${x.decision==='Prüfen'?'selected':''}>Prüfen</option><option ${x.decision==='Kündigen'?'selected':''}>Kündigen</option></select><span class="pill ${cls}">${x.decision}</span><button class="btn">Löschen</button></div>`; row.querySelector('button').onclick=()=>{state.abos=state.abos.filter(i=>i.id!==x.id); renderAbos();}; row.querySelector('select').onchange=(e)=>{x.decision=e.target.value; renderAbos();}; list.appendChild(row);});
   empty.style.display = state.abos.length ? 'none' : 'block';
   const total = state.abos.reduce((a,b)=>a+Number(b.amount||0),0), cut=state.abos.filter(x=>x.decision==='Kündigen').reduce((a,b)=>a+Number(b.amount||0),0), keep=state.abos.filter(x=>x.decision==='Behalten').reduce((a,b)=>a+Number(b.amount||0),0);
   document.getElementById('a_total').textContent=euro(total); document.getElementById('a_cut').textContent=euro(cut); document.getElementById('a_keep').textContent=euro(keep); document.getElementById('a_year').textContent=euro(cut*12);
 }
+
 function renderBank(){
   const body = document.getElementById('bankBody'); body.innerHTML='';
   const groups={}; state.bank.forEach(r=>{ const key=(r.text||'').toLowerCase().replace(/\d+/g,'').trim(); groups[key]=(groups[key]||0)+1; });
@@ -190,11 +327,13 @@ function renderBank(){
   state.bank.forEach(r=>{ const rec = groups[(r.text||'').toLowerCase().replace(/\d+/g,'').trim()] >= 2; if(rec) recur++; const biz = /(hosting|shopify|openai|anthropic|railway|contabo|cloudflare|meta|google ads|server|api|software|paypal)/i.test(r.text||''); if(biz) business++; if(Number(r.amount)<0) spend += Math.abs(Number(r.amount)); const tr=document.createElement('tr'); tr.innerHTML=`<td>${esc(r.date||'')}</td><td>${esc(r.text||'')}</td><td>${euro(r.amount)}</td><td>${Number(r.amount)<0?'Ausgabe':'Eingang'}</td><td>${rec?'Wiederkehrend verdächtig':''}${rec&&biz?' · ':''}${biz?'geschäftlich möglich':''}</td>`; body.appendChild(tr); });
   document.getElementById('b_count').textContent=state.bank.length; document.getElementById('b_recur').textContent=recur; document.getElementById('b_business').textContent=business; document.getElementById('b_spend').textContent=euro(spend);
 }
+
 function renderTax(){
   const body = document.getElementById('taxBody'); body.innerHTML=''; let income=0,expense=0,privateN=0;
   state.tax.forEach(r=>{ if(r.type==='Einnahme') income += Number(r.amount); if(r.type==='Ausgabe') expense += Number(r.amount); if(r.type==='Privat nicht abziehbar') privateN += Number(r.amount); const tr=document.createElement('tr'); tr.innerHTML=`<td>${esc(r.year)}</td><td>${esc(r.type)}</td><td>${esc(r.category)}</td><td>${euro(r.amount)}</td><td>${esc(r.note||'')}</td>`; body.appendChild(tr); });
   document.getElementById('t_income').textContent=euro(income); document.getElementById('t_expense').textContent=euro(expense); document.getElementById('t_profit').textContent=euro(income-expense); document.getElementById('t_private').textContent=euro(privateN);
 }
+
 function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 
 function renderAssistant(){
@@ -209,10 +348,12 @@ function renderAssistant(){
   document.getElementById('as_remind_count').textContent = state.cancelQueue.filter(x=>x.kind==='Erinnern').length;
   document.getElementById('as_project_count').textContent = projectRelevant;
 }
+
 function inferProjectRelevant(name){
   const lower = String(name||'').toLowerCase();
   return state.assistantRules.some(r => String(r.keywords||'').toLowerCase().split(',').map(s=>s.trim()).filter(Boolean).some(k => lower.includes(k)));
 }
+
 function renderMail(){
   const accWrap = document.getElementById('m_accounts'); const resWrap = document.getElementById('m_results'); const empty = document.getElementById('m_empty');
   accWrap.innerHTML=''; resWrap.innerHTML='';
@@ -226,8 +367,44 @@ function renderMail(){
   document.getElementById('m_amount_count').textContent = amountFound;
 }
 
+// ── Tab navigation ────────────────────────────────────────────────────────────
 document.querySelectorAll('.tab').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active');});
-document.getElementById('a_add').onclick=()=>{const name=document.getElementById('a_name').value.trim(); const amount=parseFloat(document.getElementById('a_amount').value||'0'); if(!name) return alert('Bitte Dienst eintragen.'); const item={id:uid(),name,category:document.getElementById('a_category').value,amount,source:document.getElementById('a_source').value,usage:document.getElementById('a_usage').value,purpose:document.getElementById('a_purpose').value.trim()}; item.decision=classifyAbo(item); state.abos.push(item); renderAbos(); };
+
+// ── Abo Add (with AI classify) ────────────────────────────────────────────────
+document.getElementById('a_add').onclick = async () => {
+  const name = document.getElementById('a_name').value.trim();
+  const amount = parseFloat(document.getElementById('a_amount').value || '0');
+  if (!name) return alert('Bitte Dienst eintragen.');
+  const item = { id: uid(), name, category: document.getElementById('a_category').value, amount, source: document.getElementById('a_source').value, usage: document.getElementById('a_usage').value, purpose: document.getElementById('a_purpose').value.trim() };
+  document.getElementById('a_add_text').textContent = 'KI analysiert…';
+  document.getElementById('a_spinner').style.display = 'inline';
+  document.getElementById('a_add').disabled = true;
+  try {
+    const res = await fetch('/api/classify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: `Dienst: ${item.name}\nKategorie: ${item.category}\nBetrag: €${item.amount}/Monat\nNutzung: ${item.usage}\nZweck: ${item.purpose || 'nicht angegeben'}`, type: 'abo' })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      item.decision = data.decision || classifyAboLocal(item);
+      item.aiReason = data.reason || '';
+    } else {
+      item.decision = classifyAboLocal(item);
+    }
+  } catch (_) {
+    item.decision = classifyAboLocal(item);
+  }
+  document.getElementById('a_add_text').textContent = 'KI-Analyse & Hinzufügen';
+  document.getElementById('a_spinner').style.display = 'none';
+  document.getElementById('a_add').disabled = false;
+  state.abos.push(item);
+  renderAbos();
+  document.getElementById('a_name').value = '';
+  document.getElementById('a_amount').value = '';
+  document.getElementById('a_purpose').value = '';
+};
+
 document.getElementById('bankDemo').onclick=()=>{ state.bank = [
   {date:'2026-05-02',text:'PAYPAL *SHOPIFY APP',amount:-19.0},
   {date:'2026-05-03',text:'OPENAI API',amount:-59.0},
@@ -237,22 +414,26 @@ document.getElementById('bankDemo').onclick=()=>{ state.bank = [
   {date:'2026-06-03',text:'OPENAI API',amount:-35.0},
   {date:'2026-06-06',text:'SPOTIFY',amount:-10.99}
 ]; renderBank(); };
+
 document.getElementById('bankFile').addEventListener('change', async (e)=>{ const f=e.target.files[0]; if(!f) return; const txt=await f.text(); const lines=txt.split(/\r?\n/).filter(Boolean); const rows=[]; for(const line of lines.slice(1)){ const parts=line.split(/[;,]/); if(parts.length>=3){ const date=parts[0]?.trim(); const text=parts[1]?.trim(); const amtRaw=(parts[2]||'0').replace(/\./g,'').replace(',', '.'); const amount=parseFloat(amtRaw); if(text) rows.push({date,text,amount:isNaN(amount)?0:amount}); } } state.bank=rows; renderBank(); });
+
 document.getElementById('t_add').onclick=()=>{ const amount=parseFloat(document.getElementById('t_amount').value||'0'); const row={id:uid(),year:document.getElementById('t_year').value,type:document.getElementById('t_type').value,category:document.getElementById('t_cat').value,amount,note:document.getElementById('t_note').value.trim()}; state.tax.push(row); renderTax(); };
+
 document.getElementById('loadDemo').onclick=()=>{
-  state.abos=[]; [
+  state.abos=[];
+  [
     {name:'OpenAI API',category:'AI/API',amount:59,source:'Kreditkarte',usage:'Wöchentlich',purpose:'Aktive Automationen und Kundenprojekte aktiv'},
     {name:'Railway',category:'Hosting',amount:24,source:'Kreditkarte',usage:'Fast nie',purpose:'Altes Testprojekt'},
     {name:'Shopify App XYZ',category:'Shopify App',amount:19,source:'PayPal',usage:'Fast nie',purpose:'Nur getestet'},
     {name:'YouTube Premium',category:'Medien',amount:12.99,source:'Apple',usage:'Täglich',purpose:'Tägliche Nutzung'}
-  ].forEach(x=>state.abos.push({id:uid(),decision:classifyAbo(x),...x}));
+  ].forEach(x=>state.abos.push({id:uid(),decision:classifyAboLocal(x),...x}));
   state.tax=[
     {id:uid(),year:'2025',type:'Einnahme',category:'Umsatz',amount:12000,note:'Shopify / Automationskunden'},
     {id:uid(),year:'2025',type:'Ausgabe',category:'Hosting',amount:780,note:'Server und Deployments'},
     {id:uid(),year:'2025',type:'Ausgabe',category:'AI/API',amount:1450,note:'OpenAI, Claude, Gemini Tests'},
     {id:uid(),year:'2025',type:'Privat nicht abziehbar',category:'Sonstiges',amount:220,note:'Privatkäufe'}
-  ]; renderAbos(); renderTax(); };
-
+  ]; renderAbos(); renderTax();
+};
 
 document.getElementById('as_add_rule').onclick=()=>{ const project=document.getElementById('as_project').value.trim(); if(!project) return alert('Bitte Projektname angeben.'); state.assistantRules.push({id:uid(), project, keywords:document.getElementById('as_keywords').value.trim(), days:document.getElementById('as_days').value, action:document.getElementById('as_action').value}); document.getElementById('as_project').value=''; document.getElementById('as_keywords').value=''; renderAssistant(); };
 document.getElementById('pp_demo_queue').onclick=()=>{ const source = 'PayPal ' + document.getElementById('pp_mode').value; const suggestions = state.abos.length ? state.abos : [{name:'Railway',source:'Kreditkarte',decision:'Kündigen'},{name:'Shopify App XYZ',source:'PayPal',decision:'Kündigen'},{name:'OpenAI API',source:'Kreditkarte',decision:'Behalten'}]; state.cancelQueue = suggestions.filter(x=>x.decision!=='Behalten').map(x=>({ id:uid(), name:x.name, source:x.source || source, mode: x.source==='PayPal' ? 'API möglich' : 'Manuell/Link', when: '7 Tage vor Verlängerung', kind: x.source==='PayPal' ? 'Suspendieren' : 'Erinnern', reason: 'Basierend auf Nutzung, Projektbezug und Kostenprüfung', projectRelevant: inferProjectRelevant(x.name) })); renderAssistant(); };
@@ -261,9 +442,12 @@ document.getElementById('m_run').onclick=()=>{ const vendor=(document.getElement
   {account: state.mailAccounts[0]?.email || 'konto1@gmail.com', from:'service@paypal.com', date:'2026-06-02', subject:'Your receipt from PayPal', snippet:'Payment confirmation for Shopify App subscription.', amount:'19,00 EUR', business:true, tag:'Rechnung'},
   {account: state.mailAccounts[1]?.email || 'konto2@gmail.com', from:'billing@openai.com', date:'2026-06-03', subject:'OpenAI receipt available', snippet:'Invoice for API usage this month.', amount:'59,00 EUR', business:true, tag:'AI/API'},
   {account: state.mailAccounts[0]?.email || 'konto1@gmail.com', from:'no-reply@spotify.com', date:'2026-06-04', subject:'Your Spotify payment receipt', snippet:'Monthly personal subscription payment.', amount:'10,99 EUR', business:false, tag:'Privat'}
-  ].filter(x => !vendor || x.from.toLowerCase().includes(vendor) || x.subject.toLowerCase().includes(vendor) || x.snippet.toLowerCase().includes(vendor)); renderMail(); };
+].filter(x => !vendor || x.from.toLowerCase().includes(vendor) || x.subject.toLowerCase().includes(vendor) || x.snippet.toLowerCase().includes(vendor)); renderMail(); };
+
 document.getElementById('exportAll').onclick=()=>{ const data = JSON.stringify(state,null,2); const blob=new Blob([data],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='steuer-abo-cockpit-export.json'; a.click(); URL.revokeObjectURL(a.href); };
+
 (function(){let d=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; document.documentElement.setAttribute('data-theme',d); const b=document.getElementById('themeBtn'); b.textContent=d==='dark'?'☀️':'🌙'; b.onclick=()=>{d=d==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme',d); b.textContent=d==='dark'?'☀️':'🌙';};})();
+
 renderAbos(); renderBank(); renderTax(); renderMail(); renderAssistant();
 </script>
 </body>

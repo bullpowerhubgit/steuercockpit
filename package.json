@@ -1,9 +1,27 @@
 {
   "name": "steuercockpit",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node server.cjs",
+    "dev": "node server.cjs"
+  },
+  "description": "KI-gestütztes Steuer- und Abo-Management Tool",
+  "main": "server.cjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bullpowerhubgit/steuercockpit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bullpowerhubgit/steuercockpit/issues"
+  },
+  "homepage": "https://github.com/bullpowerhubgit/steuercockpit#readme",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.104.2",
+    "express": "^5.2.1",
+    "node-cron": "^4.2.1",
+    "stripe": "^22.2.1"
   }
 }
