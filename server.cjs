@@ -155,7 +155,7 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), (req, res) =
 
 // ── Static ────────────────────────────────────────────────────────────────────
 app.use(express.static(__dirname));
-app.get('*', (_req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.use((_req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
 // ── Cron: Daily 08:00 Vienna ──────────────────────────────────────────────────
 cron.schedule('0 8 * * *', async () => {
