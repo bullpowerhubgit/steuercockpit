@@ -3,3 +3,5 @@ dist/
 .env
 .env.local
 *.log
+deploy-railway-vars.sh
+.env

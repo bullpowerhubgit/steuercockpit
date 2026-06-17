@@ -8,8 +8,8 @@ const cron = require('node-cron');
 
 const STRIPE_KEY = process.env.STRIPE_SECRET_KEY;
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
-const PRICE_MONTHLY = process.env.STRIPE_PRICE_MONTHLY || 'price_1TjDzfRJECiV6vSmsfqt7TWg';
-const PRICE_LIFETIME = process.env.STRIPE_PRICE_LIFETIME || 'price_1TjDzgRJECiV6vSmmLJgXIMt';
+const PRICE_MONTHLY = process.env.STRIPE_PRICE_MONTHLY || 'price_1TjKLORJECiV6vSmYVK4HnNu';
+const PRICE_LIFETIME = process.env.STRIPE_PRICE_LIFETIME || 'price_1TjKLQRJECiV6vSmfnlDzmLg';
 const APP_URL = process.env.APP_URL || 'https://steuercockpit-production.up.railway.app';
 
 if (!STRIPE_KEY) { console.error('FATAL: STRIPE_SECRET_KEY not set'); process.exit(1); }
