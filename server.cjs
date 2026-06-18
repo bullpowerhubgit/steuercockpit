@@ -169,6 +169,20 @@ cron.schedule('0 8 * * *', async () => {
 seoBridge.addExpressRoutes(app, ['steuer software deutsch', 'steuererklaerung tool', 'abo cockpit deutsch']);
 seoBridge.startBackgroundSync(['steuer software deutsch', 'steuererklaerung tool', 'abo cockpit deutsch']);
 
+// SEO Traffic Engine ingest — receives broadcasts from seo-traffic-engine
+app.post('/api/ingest', async (req, res) => {
+  try {
+    const { title = '', url = '', keyword = '', product_name = '', product_url = '' } = req.body || {};
+    const isTaxRelated = /steuer|abo|abonnement|finanz|tax|invoice/i.test(keyword + ' ' + title);
+    const prefix = isTaxRelated ? '🎯 <b>Relevanter SEO Artikel!</b>' : '📰 <b>SEO Artikel → Steuercockpit</b>';
+    sendTelegram(`${prefix}\n🔑 ${keyword}\n📄 ${title}\n🔗 ${url}\n🛒 ${product_name}: ${product_url}`);
+    res.json({ status: 'ok', service: 'steuercockpit', processed: title, tax_relevant: isTaxRelated });
+  } catch (e) {
+    console.error('Ingest error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 const PORT = process.env.PORT || 3032;
 app.listen(PORT, () => {
   console.log(`steuercockpit on :${PORT}`);
