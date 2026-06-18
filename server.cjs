@@ -35,6 +35,15 @@ function sendTelegram(msg) {
   req.write(body); req.end();
 }
 
+// ── CORS ──────────────────────────────────────────────────────────────────────
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
 // ── Body Parsing — skip JSON for webhook ────────────────────────────────────
 app.use((req, res, next) => {
   if (req.path === '/api/webhook') return next();
