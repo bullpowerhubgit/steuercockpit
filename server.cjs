@@ -154,6 +154,9 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), (req, res) =
   res.json({ received: true, type: event.type });
 });
 
+// ── SEO Bridge (before SPA catch-all) ────────────────────────────────────────
+seoBridge.addExpressRoutes(app, ['steuer software deutsch', 'steuererklaerung tool', 'abo cockpit deutsch']);
+
 // ── Static ────────────────────────────────────────────────────────────────────
 app.use(express.static(__dirname));
 app.use((_req, res) => res.sendFile(path.join(__dirname, 'index.html')));
@@ -166,7 +169,6 @@ cron.schedule('0 8 * * *', async () => {
   } catch (e) { console.error('Cron error:', e.message); }
 }, { timezone: 'Europe/Vienna' });
 
-seoBridge.addExpressRoutes(app, ['steuer software deutsch', 'steuererklaerung tool', 'abo cockpit deutsch']);
 seoBridge.startBackgroundSync(['steuer software deutsch', 'steuererklaerung tool', 'abo cockpit deutsch']);
 
 // SEO Traffic Engine ingest — receives broadcasts from seo-traffic-engine
