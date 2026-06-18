@@ -134,6 +134,44 @@ app.get('/api/revenue', async (_req, res) => {
   }
 });
 
+// ── Email Marketing: Klaviyo + Mailchimp subscriber on purchase ───────────────
+async function subscribeToMarketing(email, plan, source) {
+  const klaviyoKey = process.env.KLAVIYO_API_KEY;
+  const klaviyoList = process.env.KLAVIYO_LIST_ID;
+  const mailchimpKey = process.env.MAILCHIMP_API_KEY;
+  const mailchimpServer = process.env.MAILCHIMP_SERVER_PREFIX || 'us7';
+  const mailchimpList = process.env.MAILCHIMP_LIST_ID;
+
+  // Klaviyo
+  if (klaviyoKey) {
+    fetch('https://a.klaviyo.com/api/profiles/', {
+      method: 'POST',
+      headers: { 'Authorization': `Klaviyo-API-Key ${klaviyoKey}`, 'revision': '2024-10-15', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data: { type: 'profile', attributes: { email, properties: { plan, source, purchased: true } } } })
+    }).then(async r => {
+      if (klaviyoList && r.status !== 400) {
+        const pid = (await r.json()).data?.id;
+        if (pid) fetch(`https://a.klaviyo.com/api/lists/${klaviyoList}/relationships/profiles/`, {
+          method: 'POST',
+          headers: { 'Authorization': `Klaviyo-API-Key ${klaviyoKey}`, 'revision': '2024-10-15', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ data: [{ type: 'profile', id: pid }] })
+        }).catch(() => {});
+      }
+    }).catch(() => {});
+  }
+
+  // Mailchimp
+  if (mailchimpKey && mailchimpList) {
+    const crypto = require('crypto');
+    const hash = crypto.createHash('md5').update(email.toLowerCase()).digest('hex');
+    fetch(`https://${mailchimpServer}.api.mailchimp.com/3.0/lists/${mailchimpList}/members/${hash}`, {
+      method: 'PUT',
+      headers: { 'Authorization': `Basic ${Buffer.from(`anystring:${mailchimpKey}`).toString('base64')}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email_address: email, status_if_new: 'subscribed', status: 'subscribed', merge_fields: { PLAN: plan, SOURCE: source } })
+    }).catch(() => {});
+  }
+}
+
 // ── Webhook ───────────────────────────────────────────────────────────────────
 app.post('/api/webhook', express.raw({ type: 'application/json' }), (req, res) => {
   const sig = req.headers['stripe-signature'];
@@ -153,6 +191,7 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), (req, res) =
     const email = obj.customer_email || obj.customer_details?.email || '?';
     const amt = obj.amount_total ? `€${(obj.amount_total / 100).toFixed(2)}` : '';
     sendTelegram(`🎉 <b>NEUE ZAHLUNG — Steuercockpit!</b>\n\n💳 Plan: <b>${plan}</b>\n📧 ${email}\n💰 ${amt}\n⏰ ${new Date().toLocaleString('de-AT', { timeZone: 'Europe/Vienna' })}`);
+    if (email && email !== '?') subscribeToMarketing(email, plan, 'steuercockpit');
   } else if (event.type === 'invoice.payment_failed') {
     const amt = obj.amount_due ? `€${(obj.amount_due / 100).toFixed(2)}` : '';
     sendTelegram(`⚠️ <b>Steuercockpit: Zahlung fehlgeschlagen</b>\n${amt} · ${obj.customer_email || obj.customer}`);
