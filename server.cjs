@@ -233,6 +233,58 @@ app.post('/api/ingest', async (req, res) => {
   }
 });
 
+// ── VOLLAUTONOMER SEO/CONTENT LOOP ─────────────────────────────────────────
+(function startAutonomousLoop() {
+  const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || '';
+  const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+  const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '5088771245';
+  const APP_URL = process.env.APP_URL || 'https://steuercockpit-production-44c9.up.railway.app';
+  const SEO_ENGINE = process.env.SEO_ENGINE_URL || 'https://seo-traffic-engine-production.up.railway.app';
+  const topics = ['Steuererklärung 2025 Tipps','Kleinunternehmer Steuer sparen','Homeoffice Steuern absetzen','Freiberufler Steuertipps','Betriebsausgaben optimieren'];
+  let idx = 0; let cycle = 0;
+
+  async function runCycle() {
+    try {
+      const topic = topics[idx++ % topics.length];
+      if (ANTHROPIC_KEY) {
+        const r = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 500,
+            messages: [{ role: 'user', content: `100-Wort SEO-Artikel Deutsch über: ${topic}. Nur Text.` }] }),
+          signal: AbortSignal.timeout(25000),
+        });
+        if (r.ok) {
+          const d = await r.json();
+          const content = d.content?.[0]?.text || '';
+          await fetch(`${SEO_ENGINE}/api/ingest`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: `${topic} — Steuercockpit`, content, keyword: topic, source: 'steuercockpit' }),
+            signal: AbortSignal.timeout(10000),
+          }).catch(() => {});
+          if (BOT_TOKEN && CHAT_ID) {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chat_id: CHAT_ID, text: `🧾 <b>Steuercockpit SEO</b>\n\n<b>${topic}</b>\n\n${content.substring(0,280)}...\n\n🌐 ${APP_URL}`, parse_mode: 'HTML' }),
+              signal: AbortSignal.timeout(10000),
+            }).catch(() => {});
+          }
+          console.log(`[Steuercockpit] Auto-Content: ${topic}`);
+        }
+      }
+      if (cycle++ % 4 === 0) {
+        const url = encodeURIComponent(`${APP_URL}/sitemap.xml`);
+        await Promise.allSettled([fetch(`https://www.google.com/ping?sitemap=${url}`), fetch(`https://www.bing.com/ping?sitemap=${url}`)]).catch(() => {});
+        console.log('[Steuercockpit] Sitemap gepingt');
+      }
+    } catch (e) { console.error('[Steuercockpit] loop error:', e.message); }
+  }
+
+  setTimeout(runCycle, 60000);
+  setInterval(runCycle, 6 * 60 * 60 * 1000);
+  console.log('[Steuercockpit] Autonomous SEO loop gestartet (alle 6h)');
+})();
+
 const PORT = process.env.PORT || 3032;
 app.listen(PORT, () => {
   console.log(`steuercockpit on :${PORT}`);
