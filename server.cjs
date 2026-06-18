@@ -134,6 +134,16 @@ app.get('/api/revenue', async (_req, res) => {
   }
 });
 
+// ── SuperMegaBot callback — triggers email sequences + full automation ────────
+function notifySupermegabot(email, firstName, source, product) {
+  const smb = process.env.SUPERMEGABOT_URL || 'https://dudirudibot-mega-production.up.railway.app';
+  fetch(`${smb}/api/lead`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, first_name: firstName, source, product }),
+  }).catch(e => console.warn('SuperMegaBot lead callback failed:', e.message));
+}
+
 // ── Email Marketing: Klaviyo + Mailchimp subscriber on purchase ───────────────
 async function subscribeToMarketing(email, plan, source) {
   const klaviyoKey = process.env.KLAVIYO_API_KEY;
@@ -191,7 +201,10 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), (req, res) =
     const email = obj.customer_email || obj.customer_details?.email || '?';
     const amt = obj.amount_total ? `€${(obj.amount_total / 100).toFixed(2)}` : '';
     sendTelegram(`🎉 <b>NEUE ZAHLUNG — Steuercockpit!</b>\n\n💳 Plan: <b>${plan}</b>\n📧 ${email}\n💰 ${amt}\n⏰ ${new Date().toLocaleString('de-AT', { timeZone: 'Europe/Vienna' })}`);
-    if (email && email !== '?') subscribeToMarketing(email, plan, 'steuercockpit');
+    if (email && email !== '?') {
+      subscribeToMarketing(email, plan, 'steuercockpit');
+      notifySupermegabot(email, email.split('@')[0], 'steuercockpit_purchase', plan);
+    }
   } else if (event.type === 'invoice.payment_failed') {
     const amt = obj.amount_due ? `€${(obj.amount_due / 100).toFixed(2)}` : '';
     sendTelegram(`⚠️ <b>Steuercockpit: Zahlung fehlgeschlagen</b>\n${amt} · ${obj.customer_email || obj.customer}`);
