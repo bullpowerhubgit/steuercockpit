@@ -1,4 +1,5 @@
 try { require('dotenv').config(); } catch (_) {}
+const seoBridge = require('./seoBridge.cjs');
 const express = require('express');
 const Stripe = require('stripe');
 const Anthropic = require('@anthropic-ai/sdk');
@@ -164,6 +165,9 @@ cron.schedule('0 8 * * *', async () => {
     sendTelegram(`📊 <b>Steuercockpit Daily Report</b>\n👥 Aktive Subs: <b>${subs.data.length}</b>\n⏰ ${new Date().toLocaleDateString('de-AT', { timeZone: 'Europe/Vienna' })}`);
   } catch (e) { console.error('Cron error:', e.message); }
 }, { timezone: 'Europe/Vienna' });
+
+seoBridge.addExpressRoutes(app, ['steuer software deutsch', 'steuererklaerung tool', 'abo cockpit deutsch']);
+seoBridge.startBackgroundSync(['steuer software deutsch', 'steuererklaerung tool', 'abo cockpit deutsch']);
 
 const PORT = process.env.PORT || 3032;
 app.listen(PORT, () => {
