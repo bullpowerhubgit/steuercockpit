@@ -13,7 +13,29 @@ const PRICE_MONTHLY = process.env.STRIPE_PRICE_MONTHLY || 'price_1TjKLORJECiV6vS
 const PRICE_LIFETIME = process.env.STRIPE_PRICE_LIFETIME || 'price_1TjKLQRJECiV6vSmfnlDzmLg';
 const APP_URL = process.env.APP_URL || 'https://steuercockpit-production.up.railway.app';
 
+const PAYPAL_USER = process.env.PAYPAL_API_USER || 'bullpowersrtkennels_api1.gmail.com';
+const PAYPAL_PWD  = process.env.PAYPAL_API_PWD  || 'MLAF7RKV5UMM7FVN';
+const PAYPAL_API  = 'https://api-3t.paypal.com/nvp';
+
 if (!STRIPE_KEY) { console.error('FATAL: STRIPE_SECRET_KEY not set'); process.exit(1); }
+
+// ── PayPal NVP Helper ─────────────────────────────────────────────────────────
+function paypalNvp(params) {
+  return new Promise((resolve, reject) => {
+    const base = { VERSION: '204', USER: PAYPAL_USER, PWD: PAYPAL_PWD };
+    const body = new URLSearchParams({ ...base, ...params }).toString();
+    const req = https.request(PAYPAL_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(body) }
+    }, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => resolve(Object.fromEntries(new URLSearchParams(data))));
+    });
+    req.on('error', reject);
+    req.write(body); req.end();
+  });
+}
 
 const stripe = Stripe(STRIPE_KEY);
 const anthropic = ANTHROPIC_KEY ? new Anthropic({ apiKey: ANTHROPIC_KEY }) : null;
@@ -101,6 +123,62 @@ app.post('/api/checkout', async (req, res) => {
   } catch (err) {
     console.error('Checkout error:', err.message);
     res.status(500).json({ error: err.message });
+  }
+});
+
+// ── PayPal Checkout ───────────────────────────────────────────────────────────
+app.post('/api/paypal/checkout', async (req, res) => {
+  try {
+    const { plan } = req.body || {};
+    const amounts = { monthly: '29.00', lifetime: '149.00' };
+    const amount = amounts[plan] || '29.00';
+    const resp = await paypalNvp({
+      METHOD: 'SetExpressCheckout',
+      PAYMENTREQUEST_0_AMT: amount,
+      PAYMENTREQUEST_0_CURRENCYCODE: 'EUR',
+      PAYMENTREQUEST_0_PAYMENTACTION: 'Sale',
+      PAYMENTREQUEST_0_DESC: `SteuercockPit ${plan === 'lifetime' ? 'Lifetime' : 'Monatlich'} — KI-Buchhaltung`,
+      RETURNURL: `${APP_URL}/api/paypal/return`,
+      CANCELURL: `${APP_URL}?cancelled=true`,
+      SOLUTIONTYPE: 'Sole',
+      LANDINGPAGE: 'Billing',
+      LOCALECODE: 'de_DE',
+    });
+    if (resp.ACK === 'Success' || resp.ACK === 'SuccessWithWarning') {
+      const url = `https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=${resp.TOKEN}`;
+      console.log(`PayPal checkout: plan=${plan} token=${resp.TOKEN}`);
+      return res.json({ url, token: resp.TOKEN });
+    }
+    console.error('PayPal error:', resp.L_LONGMESSAGE0);
+    res.status(500).json({ error: resp.L_LONGMESSAGE0 || 'PayPal Fehler' });
+  } catch (err) {
+    console.error('PayPal checkout error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/paypal/return', async (req, res) => {
+  try {
+    const { token, PayerID } = req.query;
+    if (!token || !PayerID) return res.redirect(`${APP_URL}?error=paypal_missing_params`);
+    const details = await paypalNvp({ METHOD: 'GetExpressCheckoutDetails', TOKEN: token });
+    const amount = details.PAYMENTREQUEST_0_AMT || '29.00';
+    const execute = await paypalNvp({
+      METHOD: 'DoExpressCheckoutPayment',
+      TOKEN: token,
+      PAYERID: PayerID,
+      PAYMENTREQUEST_0_AMT: amount,
+      PAYMENTREQUEST_0_CURRENCYCODE: 'EUR',
+      PAYMENTREQUEST_0_PAYMENTACTION: 'Sale',
+    });
+    if (execute.ACK === 'Success' || execute.ACK === 'SuccessWithWarning') {
+      const txId = execute.PAYMENTINFO_0_TRANSACTIONID;
+      sendTelegram(`💰 <b>PayPal Zahlung!</b>\nBetrag: ${amount} EUR\nTx: ${txId}`);
+      return res.redirect(`${APP_URL}?success=true&payment=paypal&tx=${txId}`);
+    }
+    res.redirect(`${APP_URL}?error=paypal_failed`);
+  } catch (err) {
+    res.redirect(`${APP_URL}?error=paypal_error`);
   }
 });
 
