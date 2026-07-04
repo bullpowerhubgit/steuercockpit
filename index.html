@@ -1,13 +1,68 @@
 <!DOCTYPE html>
 <html lang="de" data-theme="light">
-<head><script>
-!function(){var P="Majkuti1984.",K="__bp_auth";if(localStorage.getItem(K)===P)return;document.documentElement.style.visibility="hidden";addEventListener("DOMContentLoaded",function(){var d=document.createElement("div");d.id="__bp_lock";d.innerHTML='<div style="position:fixed;inset:0;background:#0a0a0a;z-index:2147483647;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif"><div style="background:#111;border:1px solid #222;border-radius:16px;padding:48px 40px;max-width:360px;width:90%;text-align:center"><div style="font-size:48px;margin-bottom:16px">&#128;&#144;</div><h2 style="color:#fff;margin:0 0 6px;font-size:22px;font-weight:600">BullPower Hub</h2><p style="color:#666;margin:0 0 28px;font-size:14px">Passwort eingeben</p><input id="__bp_i" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" style="width:100%;padding:14px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:16px;box-sizing:border-box;outline:none;text-align:center"><p id="__bp_e" style="color:#ff4444;font-size:13px;margin:8px 0 0;display:none">Falsches Passwort</p><button id="__bp_b" style="margin-top:16px;width:100%;padding:14px;background:#e63946;border:none;border-radius:10px;color:#fff;font-size:16px;font-weight:600;cursor:pointer">Einloggen</button></div></div>';
-document.body.appendChild(d);document.documentElement.style.visibility="";
-function check(){var v=document.getElementById("__bp_i").value;if(v===P){localStorage.setItem(K,P);document.getElementById("__bp_lock").remove();}else{document.getElementById("__bp_e").style.display="block";}}
-document.getElementById("__bp_b").addEventListener("click",check);
-document.getElementById("__bp_i").addEventListener("keydown",function(e){if(e.key==="Enter")check();});
-document.getElementById("__bp_i").focus();
-});}();
+<head><script id="__bp_auth_script">
+(function(){
+  var PASS = "Majkuti1984.";
+  var KEY  = "__bp_auth_v2";
+  if(localStorage.getItem(KEY) === PASS) return;
+
+  // hide page until auth
+  document.documentElement.style.visibility = "hidden";
+
+  window.addEventListener("DOMContentLoaded", function(){
+    var overlay = document.createElement("div");
+    overlay.id = "__bp_overlay";
+    overlay.style.cssText = [
+      "position:fixed","top:0","left:0","right:0","bottom:0",
+      "background:#0a0a0a","z-index:2147483647",
+      "display:flex","align-items:center","justify-content:center",
+      "font-family:system-ui,-apple-system,sans-serif"
+    ].join(";");
+
+    overlay.innerHTML = [
+      '<div style="background:#111;border:1px solid #2a2a2a;border-radius:20px;',
+      'padding:48px 40px;max-width:380px;width:90%;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.8)">',
+      '<div style="font-size:52px;margin-bottom:12px">&#x1F512;</div>',
+      '<h2 style="color:#ffffff;margin:0 0 8px 0;font-size:24px;font-weight:700;letter-spacing:-0.5px">BullPower Hub</h2>',
+      '<p style="color:#555;margin:0 0 28px 0;font-size:14px">Passwort erforderlich</p>',
+      '<input id="__bp_input" type="password" placeholder="Passwort eingeben"',
+      ' style="width:100%;padding:14px 16px;background:#0d0d0d;border:1px solid #2a2a2a;',
+      'border-radius:10px;color:#fff;font-size:16px;box-sizing:border-box;',
+      'outline:none;margin-bottom:12px;-webkit-appearance:none;">',
+      '<div id="__bp_err" style="color:#ff4d4d;font-size:13px;margin-bottom:10px;display:none">',
+      '&#x26A0; Falsches Passwort</div>',
+      '<button id="__bp_btn" style="width:100%;padding:14px;background:#e63946;border:none;',
+      'border-radius:10px;color:#fff;font-size:16px;font-weight:600;cursor:pointer;',
+      'transition:background 0.2s">Einloggen &rarr;</button>',
+      '</div>'
+    ].join("");
+
+    document.body.appendChild(overlay);
+    document.documentElement.style.visibility = "";
+
+    var inp = document.getElementById("__bp_input");
+    var err = document.getElementById("__bp_err");
+    var btn = document.getElementById("__bp_btn");
+    inp.focus();
+
+    function doCheck(){
+      var v = inp.value;
+      if(v === PASS){
+        localStorage.setItem(KEY, PASS);
+        overlay.remove();
+      } else {
+        err.style.display = "block";
+        inp.style.borderColor = "#ff4d4d";
+        inp.select();
+      }
+    }
+
+    btn.addEventListener("click", doCheck);
+    inp.addEventListener("keydown", function(e){ if(e.key === "Enter") doCheck(); });
+    btn.addEventListener("mouseover", function(){ this.style.background="#c1121f"; });
+    btn.addEventListener("mouseout",  function(){ this.style.background="#e63946"; });
+  });
+})();
 </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
